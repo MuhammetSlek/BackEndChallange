@@ -25,6 +25,16 @@ npm start                  # start normally
 
 The app will not run until `app.js` is implemented - that is expected at this stage.
 
+## Verification scripts
+
+```bash
+npm run db:test      # database: auth, database name, read, write, expected collections
+npm run stack:test   # runtime: EJS, Express 5, form bodies, 404, bcrypt, Mongoose limits, sessions
+```
+
+Both scripts clean up after themselves and mask the password. See `CODING_PLAN.md` for the
+full build order, validation strategy, test matrix and packaging checklist.
+
 ### .env
 
 ```
