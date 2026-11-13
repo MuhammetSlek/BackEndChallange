@@ -6,30 +6,28 @@
 <body>
   <%- include('../partials/header') %>
 
-  <main class="page">
-    <h1 class="page-title">Welcome to Tweeter</h1>
+  <h1>Welcome to Tweeter</h1>
 
-    <p class="count">
-      There <%= tweets.length === 1 ? 'is' : 'are' %> <strong><%= tweets.length %></strong>
-      tweet<%= tweets.length === 1 ? '' : 's' %>
-    </p>
+  <p>
+    There <%= tweets.length === 1 ? 'is' : 'are' %> <%= tweets.length %>
+    tweet<%= tweets.length === 1 ? '' : 's' %>
+  </p>
 
-    <p><a class="btn" href="/addTweet">Add Tweet</a></p>
+  <p><a class="btn" href="/addTweet">Add Tweet</a></p>
 
-    <% if (!tweets.length) { %>
-      <p class="empty">No tweets yet. Click "Add Tweet" to write the first one.</p>
-    <% } %>
+  <% if (flash) { %>
+    <p><%= flash.message %></p>
+  <% } %>
 
-    <% tweets.forEach(function (tweet) { %>
-      <article class="tweet">
-        <h2 class="tweet-title"><%= tweet.title %></h2>
-        <p class="tweet-body"><%= tweet.tweet %></p>
-        <p class="tweet-meta">
-          <span class="date"><%= formatDate(tweet.createdAt) %></span>
-          <a href="/tweet/<%= tweet._id %>">See More</a>
-        </p>
-      </article>
-    <% }); %>
-  </main>
+  <% if (!tweets.length) { %>
+    <p>No tweets yet.</p>
+  <% } %>
+
+  <% tweets.forEach(function (tweet) { %>
+    <h2><%= tweet.title %></h2>
+    <p><%= tweet.tweet %></p>
+    <p><a href="/tweet/<%= tweet._id %>">See More</a></p>
+    <hr>
+  <% }); %>
 
   <%- include('../partials/footer') %>

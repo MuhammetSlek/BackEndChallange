@@ -6,27 +6,17 @@
 <body>
   <%- include('../partials/header') %>
 
-  <main class="page">
-    <h1 class="page-title">Welcome to Tweeter</h1>
+  <h1>Welcome to Tweeter</h1>
 
-    <article class="tweet single">
-      <div class="tweet-head">
-        <h2 class="tweet-title"><%= tweet.title %></h2>
-        <span class="date"><%= formatDate(tweet.createdAt) %></span>
-      </div>
+  <h2><%= tweet.title %></h2>
+  <p><%= tweet.tweet %></p>
 
-      <p class="tweet-body"><%= tweet.tweet %></p>
+  <form action="/tweet/<%= tweet._id %>/delete" method="post">
+    <button class="btn delete" type="submit">Delete</button>
+  </form>
 
-      <div class="tweet-actions">
-        <form action="/tweet/<%= tweet._id %>/delete" method="post" class="inline-form"
-              onsubmit="return confirm('Delete this tweet?');">
-          <button type="submit" class="btn danger">Delete</button>
-        </form>
-        <a class="btn" href="/tweet/edit/<%= tweet._id %>">Edit Post</a>
-      </div>
-    </article>
+  <p><a class="btn" href="/tweet/edit/<%= tweet._id %>">Edit Post</a></p>
 
-    <p><a class="back" href="/tweet">Back to tweets</a></p>
-  </main>
+  <p><a href="/tweet">Back</a></p>
 
   <%- include('../partials/footer') %>

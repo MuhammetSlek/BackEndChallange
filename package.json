@@ -5,12 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js",
-    "db:test": "node scripts/test-db.js",
-    "stack:test": "node scripts/verify-stack.js",
-    "test:http": "node scripts/smoke-http.js",
-    "seed": "node scripts/seed.js",
-    "export:db": "node scripts/export-db.js"
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",

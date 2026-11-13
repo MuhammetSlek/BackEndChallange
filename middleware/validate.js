@@ -1,27 +1,15 @@
-/**
- * middleware/validate.js -- ONE VALIDATOR FOR EVERY FORM
- *
- * The brief validates in two opposite directions at once:
- *   Title: longer than 20 characters   -> min
- *   Tweet: no longer than 50 characters -> max
- * so the limits must be data, not hardcoded if-statements.
- *
- * Rules are described per field, and validate() returns:
- *   values -> trimmed input, so a failed form can be re-filled with what was typed
- *   errors -> human readable messages, rendered by views/partials/errors.ejs
- *
- * Every field is required (brief: "No fields can be empty"). Whitespace-only
- * input counts as empty because the value is trimmed before it is checked.
- */
+// checks a form body against a set of rules and returns the cleaned values
+// plus the error messages, so the form can be filled in again after a mistake
 
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function validate(input, rules) {
   const values = {};
   const errors = [];
   const body = input || {};
 
-  for (const [field, rule] of Object.entries(rules)) {
+  for (const field in rules) {
+    const rule = rules[field];
     const raw = body[field];
     let value = typeof raw === 'string' ? raw.trim() : '';
 
@@ -29,35 +17,31 @@ function validate(input, rules) {
     values[field] = value;
 
     if (rule.required && value === '') {
-      errors.push(`${rule.label} is required`);
+      errors.push(rule.label + ' is required');
       continue;
     }
 
-    // An optional field that was left empty has nothing to check.
     if (value === '') continue;
 
-    // "longer than 20" is stored as min: 21, so the message is derived back.
     if (rule.min && value.length < rule.min) {
-      errors.push(`${rule.label} must be longer than ${rule.min - 1} characters`);
+      errors.push(rule.label + ' must be longer than ' + (rule.min - 1) + ' characters');
     }
 
     if (rule.max && value.length > rule.max) {
-      errors.push(`${rule.label} must be no longer than ${rule.max} characters`);
+      errors.push(rule.label + ' must be no longer than ' + rule.max + ' characters');
     }
 
-    if (rule.type === 'email' && !EMAIL_PATTERN.test(value)) {
-      errors.push(`${rule.label} must be a valid email address`);
+    if (rule.type === 'email' && !EMAIL.test(value)) {
+      errors.push(rule.label + ' must be a valid email address');
     }
   }
 
-  return { values, errors };
+  return { values: values, errors: errors };
 }
 
-/* ---- Rule sets: the only place the brief's numbers appear ---- */
-
 const tweetRules = {
-  title: { label: 'Title', required: true, min: 21 },  // longer than 20
-  tweet: { label: 'Tweet', required: true, max: 50 },  // no longer than 50
+  title: { label: 'Title', required: true, min: 21 },
+  tweet: { label: 'Tweet', required: true, max: 50 },
 };
 
 const registerRules = {

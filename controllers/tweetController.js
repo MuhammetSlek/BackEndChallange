@@ -1,28 +1,28 @@
-/**
- * controllers/tweetController.js -- THE GRADED CRUD
- *
- * Every action here assumes middleware/auth.js isLoggedIn already ran.
- * Every write follows the same shape:
- *   validate -> if invalid: re-render the same form, status 400, input preserved
- *            -> if valid:   save and REDIRECT (never render straight after a POST)
- *
- * URLs match the wireframe exactly:
- *   GET  /tweet              list
- *   GET  /addTweet           form
- *   POST /addTweet           create
- *   GET  /tweet/:id          one tweet
- *   GET  /tweet/edit/:id     form
- *   POST /tweet/edit/:id     update
- *   POST /tweet/:id/delete   delete
- */
+const mongoose = require('mongoose');
 const Tweet = require('../models/TweetSchema');
 const { validate, tweetRules } = require('../middleware/validate');
-const { findTweetOr404 } = require('../middleware/auth');
+
+// find a tweet or show the 404 page
+async function findTweet(id, res) {
+  if (!mongoose.isValidObjectId(id)) {
+    res.status(404).render('404', { title: 'Tweet not found' });
+    return null;
+  }
+
+  const tweet = await Tweet.findById(id);
+
+  if (!tweet) {
+    res.status(404).render('404', { title: 'Tweet not found' });
+    return null;
+  }
+
+  return tweet;
+}
 
 // GET /tweet
 exports.index = async (req, res) => {
   const tweets = await Tweet.find().sort({ createdAt: -1 });
-  res.render('tweets/index', { title: 'Welcome to Tweeter', tweets });
+  res.render('tweets/index', { title: 'Welcome to Tweeter', tweets: tweets });
 };
 
 // GET /addTweet
@@ -32,39 +32,42 @@ exports.addForm = (req, res) => {
 
 // POST /addTweet
 exports.create = async (req, res) => {
-  const { values, errors } = validate(req.body, tweetRules);
+  const result = validate(req.body, tweetRules);
 
-  if (errors.length) {
-    // 400 + the form again + what they typed. Nothing is saved.
-    return res.status(400).render('tweets/add', { title: 'Add Tweet', errors, values });
+  if (result.errors.length) {
+    return res.status(400).render('tweets/add', {
+      title: 'Add Tweet',
+      errors: result.errors,
+      values: result.values,
+    });
   }
 
   await Tweet.create({
-    title: values.title,
-    tweet: values.tweet,
+    title: result.values.title,
+    tweet: result.values.tweet,
     author: req.session.userId,
   });
 
-  req.session.flash = { type: 'success', message: 'Tweet added successfully.' };
-  return res.redirect('/tweet');
+  req.session.flash = { type: 'ok', message: 'Tweet added.' };
+  res.redirect('/tweet');
 };
 
 // GET /tweet/:id
 exports.show = async (req, res) => {
-  const tweet = await findTweetOr404(Tweet, req.params.id, res);
+  const tweet = await findTweet(req.params.id, res);
   if (!tweet) return;
 
-  res.render('tweets/show', { title: tweet.title, tweet });
+  res.render('tweets/show', { title: tweet.title, tweet: tweet });
 };
 
 // GET /tweet/edit/:id
 exports.editForm = async (req, res) => {
-  const tweet = await findTweetOr404(Tweet, req.params.id, res);
+  const tweet = await findTweet(req.params.id, res);
   if (!tweet) return;
 
   res.render('tweets/edit', {
-    title: `Edit ${tweet.title}`,
-    tweet,
+    title: 'Edit Tweet',
+    tweet: tweet,
     errors: [],
     values: { title: tweet.title, tweet: tweet.tweet },
   });
@@ -72,35 +75,35 @@ exports.editForm = async (req, res) => {
 
 // POST /tweet/edit/:id
 exports.update = async (req, res) => {
-  const tweet = await findTweetOr404(Tweet, req.params.id, res);
+  const tweet = await findTweet(req.params.id, res);
   if (!tweet) return;
 
-  const { values, errors } = validate(req.body, tweetRules);
+  const result = validate(req.body, tweetRules);
 
-  if (errors.length) {
+  if (result.errors.length) {
     return res.status(400).render('tweets/edit', {
-      title: `Edit ${tweet.title}`,
-      tweet,
-      errors,
-      values,
+      title: 'Edit Tweet',
+      tweet: tweet,
+      errors: result.errors,
+      values: result.values,
     });
   }
 
-  tweet.title = values.title;
-  tweet.tweet = values.tweet;
-  await tweet.save(); // runs the schema rules as well as the controller rules
+  tweet.title = result.values.title;
+  tweet.tweet = result.values.tweet;
+  await tweet.save();
 
-  req.session.flash = { type: 'success', message: 'Tweet updated successfully.' };
-  return res.redirect(`/tweet/${tweet._id}`);
+  req.session.flash = { type: 'ok', message: 'Tweet updated.' };
+  res.redirect('/tweet/' + tweet._id);
 };
 
 // POST /tweet/:id/delete
 exports.destroy = async (req, res) => {
-  const tweet = await findTweetOr404(Tweet, req.params.id, res);
+  const tweet = await findTweet(req.params.id, res);
   if (!tweet) return;
 
   await tweet.deleteOne();
 
-  req.session.flash = { type: 'success', message: 'Tweet deleted.' };
-  return res.redirect('/tweet');
+  req.session.flash = { type: 'ok', message: 'Tweet deleted.' };
+  res.redirect('/tweet');
 };

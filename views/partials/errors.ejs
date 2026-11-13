@@ -1,9 +1,7 @@
-<% if (typeof errors !== 'undefined' && errors && errors.length) { %>
-  <div class="errors" role="alert">
-    <ul>
-      <% errors.forEach(function (error) { %>
-        <li><%= error %></li>
-      <% }); %>
-    </ul>
-  </div>
+<% if (errors && errors.length) { %>
+  <ul class="errors">
+    <% errors.forEach(function (error) { %>
+      <li><%= error %></li>
+    <% }); %>
+  </ul>
 <% } %>

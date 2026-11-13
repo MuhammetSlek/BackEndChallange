@@ -27,12 +27,12 @@
     "__v": 0
   },
   {
-    "_id": "6af6ef7b7a72ae072cda1860",
-    "title": "MongoDB stores documents as BSON",
-    "tweet": "Schema-less and fast for read-heavy apps.",
-    "author": "6af6ef7b7a72ae072cda185c",
-    "createdAt": "2026-11-13T11:07:39.637Z",
-    "updatedAt": "2020-08-15T11:45:00.000Z",
+    "_id": "6af6f1ddad5f4755fcd1811d",
+    "title": "Composing a new test tweet",
+    "tweet": "this a new tweet",
+    "author": "6af6f170ad5f4755fcd1811c",
+    "createdAt": "2026-11-13T11:17:49.088Z",
+    "updatedAt": "2026-11-13T11:17:49.088Z",
     "__v": 0
   }
 ]

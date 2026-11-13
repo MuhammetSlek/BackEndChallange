@@ -1,14 +1,11 @@
-/**
- * controllers/authController.js -- REGISTER / LOGIN / LOGOUT
- *
- * The landing page at "/" holds both forms, exactly like the wireframe, so the
- * two POST routes are different (/register and /login) while the GET is shared.
- */
 const User = require('../models/User');
 const { validate, registerRules, loginRules } = require('../middleware/validate');
 
 // GET /
 exports.showAuthPage = (req, res) => {
+  // already logged in? go straight to the tweets
+  if (req.session.userId) return res.redirect('/tweet');
+
   res.render('index', {
     title: 'Login and Registration',
     errors: [],
@@ -19,73 +16,62 @@ exports.showAuthPage = (req, res) => {
 
 // POST /register
 exports.register = async (req, res) => {
-  const { values, errors } = validate(req.body, registerRules);
+  const result = validate(req.body, registerRules);
+  const values = result.values;
+  const errors = result.errors;
 
-  // Cross-field rule: the two passwords must match.
   if (!errors.length && values.password !== values.confirmPassword) {
     errors.push('Passwords do not match');
   }
 
   if (!errors.length) {
-    const existing = await User.findOne({ email: values.email });
-    if (existing) errors.push('An account with that email address already exists');
+    const exists = await User.findOne({ email: values.email });
+    if (exists) errors.push('An account with that email address already exists');
   }
 
   if (errors.length) {
     return res.status(400).render('index', {
       title: 'Login and Registration',
-      errors,
+      errors: errors,
       form: 'register',
-      values,
+      values: values,
     });
   }
 
-  try {
-    await User.create({
-      firstName: values.firstName,
-      lastName: values.lastName,
-      email: values.email,
-      password: values.password, // hashed by the model's pre-save hook
-    });
-  } catch (err) {
-    // Unique index race, or any other validation problem the model catches
-    if (err.code === 11000) {
-      return res.status(400).render('index', {
-        title: 'Login and Registration',
-        errors: ['An account with that email address already exists'],
-        form: 'register',
-        values,
-      });
-    }
-    throw err;
-  }
+  await User.create({
+    firstName: values.firstName,
+    lastName: values.lastName,
+    email: values.email,
+    password: values.password,
+  });
 
-  return res.redirect('/?registered=1');
+  res.redirect('/?registered=1');
 };
 
 // POST /login
 exports.login = async (req, res) => {
-  const { values, errors } = validate(req.body, loginRules);
+  const result = validate(req.body, loginRules);
+  const values = result.values;
+  const errors = result.errors;
+
   let user = null;
 
   if (!errors.length) {
     user = await User.findOne({ email: values.email });
-    const passwordOk = user ? await user.comparePassword(values.password) : false;
+    const ok = user ? await user.checkPassword(values.password) : false;
 
-    // One message for both cases: never reveal which half was wrong.
-    if (!passwordOk) errors.push('Invalid email or password');
+    if (!ok) errors.push('Invalid email or password');
   }
 
   if (errors.length) {
     return res.status(400).render('index', {
       title: 'Login and Registration',
-      errors,
+      errors: errors,
       form: 'login',
-      values: { ...values, password: '' },
+      values: { email: values.email },
     });
   }
 
-  // Minimal session payload: no password, ever.
   req.session.userId = user._id.toString();
   req.session.user = {
     id: user._id.toString(),
@@ -94,7 +80,7 @@ exports.login = async (req, res) => {
     email: user.email,
   };
 
-  return res.redirect('/tweet');
+  res.redirect('/tweet');
 };
 
 // GET /logout

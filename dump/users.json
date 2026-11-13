@@ -8,5 +8,15 @@
     "createdAt": "2026-11-13T11:07:39.392Z",
     "updatedAt": "2026-11-13T11:07:39.392Z",
     "__v": 0
+  },
+  {
+    "_id": "6af6f170ad5f4755fcd1811c",
+    "firstName": "Muhammed",
+    "lastName": "Slek",
+    "email": "mslek@gmail.com",
+    "password": "$2b$10$J8HHtoMATWtgdcEsiap0M.XT1b44ypLbdRx4Lkk9/vR7odiVX08jS",
+    "createdAt": "2026-11-13T11:16:00.927Z",
+    "updatedAt": "2026-11-13T11:16:00.927Z",
+    "__v": 0
   }
 ]

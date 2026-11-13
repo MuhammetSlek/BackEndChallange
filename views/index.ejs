@@ -6,72 +6,68 @@
 <body>
   <%- include('partials/header') %>
 
-  <main class="page">
-    <h1 class="page-title">Login and Registration</h1>
+  <h1>Login and Registration</h1>
 
-    <% if (loginRequired) { %>
-      <p class="notice">You must be logged in to view tweets.</p>
+  <% if (loginRequired) { %>
+    <p>You must be logged in to view the tweets.</p>
+  <% } %>
+
+  <% if (registered) { %>
+    <p>Your account was created. You can log in now.</p>
+  <% } %>
+
+  <h2>Login</h2>
+  <div class="box">
+    <% if (form === 'login') { %>
+      <%- include('partials/errors', { errors: errors }) %>
     <% } %>
 
-    <% if (registered) { %>
-      <p class="notice ok">Account created. You can log in now.</p>
+    <form action="/login" method="post">
+      <p>
+        <label for="login-email">Email:</label><br>
+        <input id="login-email" type="email" name="email" value="<%= form === 'login' ? values.email : '' %>">
+      </p>
+      <p>
+        <label for="login-password">Password:</label><br>
+        <input id="login-password" type="password" name="password">
+      </p>
+      <p>
+        <button class="btn" type="submit">Login</button>
+      </p>
+    </form>
+  </div>
+
+  <h2>Register</h2>
+  <div class="box">
+    <% if (form === 'register') { %>
+      <%- include('partials/errors', { errors: errors }) %>
     <% } %>
 
-    <fieldset class="panel">
-      <legend>Login</legend>
-
-      <% if (form === 'login') { %>
-        <%- include('partials/errors', { errors: errors }) %>
-      <% } %>
-
-      <form action="/login" method="post" class="form">
-        <div class="row">
-          <label for="login-email">Email:</label>
-          <input id="login-email" type="email" name="email" value="<%= form === 'login' ? (values.email || '') : '' %>" autocomplete="email">
-        </div>
-        <div class="row">
-          <label for="login-password">Password:</label>
-          <input id="login-password" type="password" name="password" autocomplete="current-password">
-        </div>
-        <div class="actions">
-          <button type="submit" class="btn">Login</button>
-        </div>
-      </form>
-    </fieldset>
-
-    <fieldset class="panel">
-      <legend>Register</legend>
-
-      <% if (form === 'register') { %>
-        <%- include('partials/errors', { errors: errors }) %>
-      <% } %>
-
-      <form action="/register" method="post" class="form">
-        <div class="row">
-          <label for="firstName">First Name:</label>
-          <input id="firstName" type="text" name="firstName" value="<%= form === 'register' ? (values.firstName || '') : '' %>" autocomplete="given-name">
-        </div>
-        <div class="row">
-          <label for="lastName">Last Name:</label>
-          <input id="lastName" type="text" name="lastName" value="<%= form === 'register' ? (values.lastName || '') : '' %>" autocomplete="family-name">
-        </div>
-        <div class="row">
-          <label for="register-email">Email Address:</label>
-          <input id="register-email" type="email" name="email" value="<%= form === 'register' ? (values.email || '') : '' %>" autocomplete="email">
-        </div>
-        <div class="row">
-          <label for="register-password">Password:</label>
-          <input id="register-password" type="password" name="password" autocomplete="new-password">
-        </div>
-        <div class="row">
-          <label for="confirmPassword">Confirm Password:</label>
-          <input id="confirmPassword" type="password" name="confirmPassword" autocomplete="new-password">
-        </div>
-        <div class="actions">
-          <button type="submit" class="btn">Register</button>
-        </div>
-      </form>
-    </fieldset>
-  </main>
+    <form action="/register" method="post">
+      <p>
+        <label for="firstName">First Name:</label><br>
+        <input id="firstName" type="text" name="firstName" value="<%= form === 'register' ? values.firstName : '' %>">
+      </p>
+      <p>
+        <label for="lastName">Last Name:</label><br>
+        <input id="lastName" type="text" name="lastName" value="<%= form === 'register' ? values.lastName : '' %>">
+      </p>
+      <p>
+        <label for="register-email">Email Address:</label><br>
+        <input id="register-email" type="email" name="email" value="<%= form === 'register' ? values.email : '' %>">
+      </p>
+      <p>
+        <label for="register-password">Password:</label><br>
+        <input id="register-password" type="password" name="password">
+      </p>
+      <p>
+        <label for="confirmPassword">Confirm Password:</label><br>
+        <input id="confirmPassword" type="password" name="confirmPassword">
+      </p>
+      <p>
+        <button class="btn" type="submit">Register</button>
+      </p>
+    </form>
+  </div>
 
   <%- include('partials/footer') %>

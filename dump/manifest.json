@@ -1,8 +1,0 @@
-{
-  "database": "backend_challenge",
-  "exportedAt": "2026-11-13T11:09:10.302Z",
-  "collections": {
-    "users": 1,
-    "tweets": 4
-  }
-}

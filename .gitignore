@@ -1,15 +1,2 @@
-# ---- installed packages (huge, never commit) ----
 node_modules/
-
-# ---- secrets: real connection string, real session secret ----
 .env
-
-# ---- local database exports can be large; remove this line if the grader wants the .bson in the repo ----
-dump/*.bson
-
-# ---- editor / OS noise ----
-.vscode/
-.idea/
-.DS_Store
-Thumbs.db
-npm-debug.log*
