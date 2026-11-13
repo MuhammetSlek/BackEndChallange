@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head') %>
+</head>
+<body>
+  <%- include('../partials/header') %>
+
+  <main class="page">
+    <h1 class="page-title">Welcome to Tweeter</h1>
+
+    <article class="tweet single">
+      <div class="tweet-head">
+        <h2 class="tweet-title"><%= tweet.title %></h2>
+        <span class="date"><%= formatDate(tweet.createdAt) %></span>
+      </div>
+
+      <p class="tweet-body"><%= tweet.tweet %></p>
+
+      <div class="tweet-actions">
+        <form action="/tweet/<%= tweet._id %>/delete" method="post" class="inline-form"
+              onsubmit="return confirm('Delete this tweet?');">
+          <button type="submit" class="btn danger">Delete</button>
+        </form>
+        <a class="btn" href="/tweet/edit/<%= tweet._id %>">Edit Post</a>
+      </div>
+    </article>
+
+    <p><a class="back" href="/tweet">Back to tweets</a></p>
+  </main>
+
+  <%- include('../partials/footer') %>

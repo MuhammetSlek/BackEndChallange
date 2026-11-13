@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head') %>
+</head>
+<body>
+  <%- include('../partials/header') %>
+
+  <main class="page">
+    <h1 class="page-title">Welcome to Tweeter</h1>
+
+    <fieldset class="panel">
+      <legend>Add a Tweet</legend>
+
+      <%- include('../partials/errors', { errors: errors }) %>
+
+      <form action="/addTweet" method="post" class="form">
+        <div class="row">
+          <label for="title">Title</label>
+          <input id="title" type="text" name="title" value="<%= values.title || '' %>" maxlength="200">
+          <small class="hint">Must be longer than 20 characters.</small>
+        </div>
+
+        <div class="row">
+          <label for="tweet">Tweet</label>
+          <textarea id="tweet" name="tweet" rows="4" cols="40"><%= values.tweet || '' %></textarea>
+          <small class="hint">No longer than 50 characters.</small>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn">Submit</button>
+        </div>
+      </form>
+    </fieldset>
+
+    <p><a class="back" href="/tweet">Back to tweets</a></p>
+  </main>
+
+  <%- include('../partials/footer') %>

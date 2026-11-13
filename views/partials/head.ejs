@@ -1,5 +1,4 @@
-<%#
-  partials/head.ejs
-  Everything that goes inside <head>: charset, viewport, <title>, CSS link.
-  Included at the top of every page so you never repeat it.
-%>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%= typeof title !== 'undefined' ? title : 'Tweeter' %></title>
+<link rel="stylesheet" href="/css/style.css">

@@ -1,0 +1,12 @@
+[
+  {
+    "_id": "6af6ef7b7a72ae072cda185c",
+    "firstName": "Demo",
+    "lastName": "User",
+    "email": "demo@tweeter.com",
+    "password": "$2b$10$qjLZV8ljn1rr5tONwhjA.eU7ylHyXo7EYno.H1fMIJVerSBL/BbVq",
+    "createdAt": "2026-11-13T11:07:39.392Z",
+    "updatedAt": "2026-11-13T11:07:39.392Z",
+    "__v": 0
+  }
+]

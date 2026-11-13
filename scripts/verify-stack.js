@@ -148,6 +148,9 @@ function check(condition, okMsg, badMsg) {
   await mongoose.connection.db.collection(sessionCollection).drop().catch(() => info('session probe collection already gone'));
   pass('probe collection removed');
 
+  // Mongoose creates a collection for every registered model; drop this probe's.
+  await mongoose.connection.db.collection('__boundaryprobes').drop().catch(() => {});
+
   await mongoose.disconnect();
 
   console.log(

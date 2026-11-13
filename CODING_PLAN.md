@@ -215,28 +215,30 @@ compare two fields rather than one.
 
 ---
 
-## 6. Brief Mapping Worksheet (fill this first on the day)
+## 6. Brief Mapping Worksheet (filled in from the official brief)
 
 | Question | Answer |
 |---|---|
-| What is one item called? (article / post / listing / item) | |
-| Item fields + rules | |
-| Second entity needed? (user / author / category) | |
-| Auth required? Register + login? | |
-| Is a user allowed to edit other users' items? | |
-| Exact URLs shown in the wireframe | |
-| Which page shows what (title only? full body? excerpt?) | |
-| Sort order on the list page | |
-| Delete = link or button? | |
-| Submission email + deadline + subject template | |
+| What is one item called? | **Tweet** (schema must be named `Tweet`, model file `TweetSchema.js`) |
+| Item fields + rules | `title`: required, longer than 20 (min 21). `tweet`: required, no longer than 50 (max 50). Date shown on list and detail, from `createdAt`. |
+| Second entity needed? | Yes — `User`, because there is a login/registration page and anonymous users are blocked |
+| Auth required? | Yes: register (first name, last name, email, password, confirm password), login (email, password) |
+| Is a user allowed to edit other users' items? | Not stated → not restricted. `author` is stored but not enforced |
+| Exact URLs shown in the wireframe | `/` (login + register), `/tweet` (list), `/addTweet` (add), `/tweet/:id` (one tweet), `/tweet/edit/:id` (edit) |
+| Which page shows what | List: title, body, date, "See More", count ("There are N tweets"). Detail: title, date, body, Delete, Edit Post. Add/Edit: Title + Tweet fields, Submit. |
+| Sort order on the list page | Newest first |
+| Delete = link or button? | A Delete control on the detail page; implemented as `POST /tweet/:id/delete`, then redirect to `/tweet` |
+| Submission email + deadline + subject template | `challenge@matrixmaster.info`, before 18:00 (6 hours), `[YOUR NAME HERE] Tweeter MVC` |
 
-Then, mapping to this skeleton:
+Result of the mapping, relative to this skeleton:
 
-- Rename `models/Article.js` + `articleController` + `articleRoutes` if the noun changes.
-  Use Find & Replace across `models/`, `controllers/`, `routes/`, `views/` -- roughly 20 hits.
-- Change only the numbers in the rule sets.
-- If auth is not required, delete the guard from the routes (3 lines) and leave the auth
-  controller unused.
+- `models/Article.js` → **`models/TweetSchema.js`**, model name `Tweet`
+- `controllers/articleController.js` → `controllers/tweetController.js`
+- `routes/articleRoutes.js` → `routes/tweetRoutes.js`
+- `views/articles/*` → `views/tweets/*`
+- Rule numbers: `title min 21`, `tweet max 50`
+- Everything else (auth, validator, sessions, 404s, packaging) unchanged.
+
 
 ---
 

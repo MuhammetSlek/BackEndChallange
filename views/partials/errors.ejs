@@ -1,6 +1,9 @@
-<%#
-  partials/errors.ejs
-  Prints the validation error list that a controller passes in as "errors".
-  Included by every form. Keeping it in one place means every page reports errors
-  the same way -- which is exactly what "validate inserting and updating" means.
-%>
+<% if (typeof errors !== 'undefined' && errors && errors.length) { %>
+  <div class="errors" role="alert">
+    <ul>
+      <% errors.forEach(function (error) { %>
+        <li><%= error %></li>
+      <% }); %>
+    </ul>
+  </div>
+<% } %>

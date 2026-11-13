@@ -1,7 +1,77 @@
-<%#
-  views/index.ejs -- THE LANDING PAGE OF DEMO 2
-  URL: /
-  Contains BOTH the Login panel and the Register panel on one page,
-  exactly like the wireframe. Both post to different routes.
-  Data it needs: errors (array, optional) and old (values to re-fill, optional).
-%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <main class="page">
+    <h1 class="page-title">Login and Registration</h1>
+
+    <% if (loginRequired) { %>
+      <p class="notice">You must be logged in to view tweets.</p>
+    <% } %>
+
+    <% if (registered) { %>
+      <p class="notice ok">Account created. You can log in now.</p>
+    <% } %>
+
+    <fieldset class="panel">
+      <legend>Login</legend>
+
+      <% if (form === 'login') { %>
+        <%- include('partials/errors', { errors: errors }) %>
+      <% } %>
+
+      <form action="/login" method="post" class="form">
+        <div class="row">
+          <label for="login-email">Email:</label>
+          <input id="login-email" type="email" name="email" value="<%= form === 'login' ? (values.email || '') : '' %>" autocomplete="email">
+        </div>
+        <div class="row">
+          <label for="login-password">Password:</label>
+          <input id="login-password" type="password" name="password" autocomplete="current-password">
+        </div>
+        <div class="actions">
+          <button type="submit" class="btn">Login</button>
+        </div>
+      </form>
+    </fieldset>
+
+    <fieldset class="panel">
+      <legend>Register</legend>
+
+      <% if (form === 'register') { %>
+        <%- include('partials/errors', { errors: errors }) %>
+      <% } %>
+
+      <form action="/register" method="post" class="form">
+        <div class="row">
+          <label for="firstName">First Name:</label>
+          <input id="firstName" type="text" name="firstName" value="<%= form === 'register' ? (values.firstName || '') : '' %>" autocomplete="given-name">
+        </div>
+        <div class="row">
+          <label for="lastName">Last Name:</label>
+          <input id="lastName" type="text" name="lastName" value="<%= form === 'register' ? (values.lastName || '') : '' %>" autocomplete="family-name">
+        </div>
+        <div class="row">
+          <label for="register-email">Email Address:</label>
+          <input id="register-email" type="email" name="email" value="<%= form === 'register' ? (values.email || '') : '' %>" autocomplete="email">
+        </div>
+        <div class="row">
+          <label for="register-password">Password:</label>
+          <input id="register-password" type="password" name="password" autocomplete="new-password">
+        </div>
+        <div class="row">
+          <label for="confirmPassword">Confirm Password:</label>
+          <input id="confirmPassword" type="password" name="confirmPassword" autocomplete="new-password">
+        </div>
+        <div class="actions">
+          <button type="submit" class="btn">Register</button>
+        </div>
+      </form>
+    </fieldset>
+  </main>
+
+  <%- include('partials/footer') %>

@@ -1,12 +1,21 @@
 /**
  * routes/authRoutes.js -- URL -> CONTROLLER MAP (authentication)
  *
- *   GET  /          -> authController.showRegisterAndLogin
- *   POST /register  -> authController.register
- *   POST /login     -> authController.login
- *   GET  /welcome   -> isLoggedIn, authController.showWelcome
- *   POST /logout    -> authController.logout
+ *   GET  /          login + registration page (the two forms from the wireframe)
+ *   POST /register  create account
+ *   POST /login     start session -> redirect to /tweet
+ *   GET  /logout    destroy session -> redirect to /
  *
- * Routes stay "dumb": they contain no logic, only the mapping. That is what makes
- * it an MVC app and what makes the URL bar match the wireframe.
+ * No guards here: anonymous visitors are supposed to reach these.
  */
+const express = require('express');
+const authController = require('../controllers/authController');
+
+const router = express.Router();
+
+router.get('/', authController.showAuthPage);
+router.post('/register', authController.register);
+router.post('/login', authController.login);
+router.get('/logout', authController.logout);
+
+module.exports = router;

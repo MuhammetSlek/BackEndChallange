@@ -1,28 +1,76 @@
 /**
- * middleware/validate.js -- ONE VALIDATOR, MANY FORMS
+ * middleware/validate.js -- ONE VALIDATOR FOR EVERY FORM
  *
- * The real reason this file exists: the demos validate in opposite directions.
- *   Demo 1 (articles):  title MIN 26, body MIN 101   -> "longer than"
- *   Demo 2 (users):     firstName MAX 10, lastName MAX 15 -> "not longer than"
- * Hardcoding either one means rewriting it for the official challenge.
+ * The brief validates in two opposite directions at once:
+ *   Title: longer than 20 characters   -> min
+ *   Tweet: no longer than 50 characters -> max
+ * so the limits must be data, not hardcoded if-statements.
  *
- * So the plan is a small RULES object per form:
+ * Rules are described per field, and validate() returns:
+ *   values -> trimmed input, so a failed form can be re-filled with what was typed
+ *   errors -> human readable messages, rendered by views/partials/errors.ejs
  *
- *   const registerRules = {
- *     firstName: { label: 'First Name', required: true, max: 10 },
- *     lastName:  { label: 'Last Name',  required: true, max: 15 },
- *     email:     { label: 'Email Address', required: true, type: 'email' },
- *     password:  { label: 'Password', required: true, min: 6 },
- *   };
- *   const articleRules = {
- *     title: { label: 'Title',   required: true, min: 26 },
- *     body:  { label: 'Article', required: true, min: 101 },
- *   };
- *
- * A function like validate(req.body, rules) returns { values, errors }:
- *   - values = the trimmed input (so the form can be re-filled after an error)
- *   - errors = an array of readable messages to print in the form
- *
- * Validating in code as well as in the Mongoose schema is deliberate:
- * the schema stops bad data, this stops a bad page.
+ * Every field is required (brief: "No fields can be empty"). Whitespace-only
+ * input counts as empty because the value is trimmed before it is checked.
  */
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function validate(input, rules) {
+  const values = {};
+  const errors = [];
+  const body = input || {};
+
+  for (const [field, rule] of Object.entries(rules)) {
+    const raw = body[field];
+    let value = typeof raw === 'string' ? raw.trim() : '';
+
+    if (rule.type === 'email') value = value.toLowerCase();
+    values[field] = value;
+
+    if (rule.required && value === '') {
+      errors.push(`${rule.label} is required`);
+      continue;
+    }
+
+    // An optional field that was left empty has nothing to check.
+    if (value === '') continue;
+
+    // "longer than 20" is stored as min: 21, so the message is derived back.
+    if (rule.min && value.length < rule.min) {
+      errors.push(`${rule.label} must be longer than ${rule.min - 1} characters`);
+    }
+
+    if (rule.max && value.length > rule.max) {
+      errors.push(`${rule.label} must be no longer than ${rule.max} characters`);
+    }
+
+    if (rule.type === 'email' && !EMAIL_PATTERN.test(value)) {
+      errors.push(`${rule.label} must be a valid email address`);
+    }
+  }
+
+  return { values, errors };
+}
+
+/* ---- Rule sets: the only place the brief's numbers appear ---- */
+
+const tweetRules = {
+  title: { label: 'Title', required: true, min: 21 },  // longer than 20
+  tweet: { label: 'Tweet', required: true, max: 50 },  // no longer than 50
+};
+
+const registerRules = {
+  firstName: { label: 'First Name', required: true },
+  lastName: { label: 'Last Name', required: true },
+  email: { label: 'Email Address', required: true, type: 'email' },
+  password: { label: 'Password', required: true },
+  confirmPassword: { label: 'Confirm Password', required: true },
+};
+
+const loginRules = {
+  email: { label: 'Email Address', required: true, type: 'email' },
+  password: { label: 'Password', required: true },
+};
+
+module.exports = { validate, tweetRules, registerRules, loginRules };

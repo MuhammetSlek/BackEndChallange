@@ -1,5 +1,18 @@
-<%#
-  partials/header.ejs
-  The top bar: site title, nav links, and a "Log off" / "Login" link depending on
-  whether res.locals.user exists. Reused by every page.
-%>
+<header class="topbar">
+  <a class="brand" href="<%= currentUser ? '/tweet' : '/' %>">Welcome to Tweeter</a>
+
+  <nav class="nav">
+    <% if (currentUser) { %>
+      <span class="who"><%= currentUser.firstName %> <%= currentUser.lastName %></span>
+      <a href="/tweet">Tweets</a>
+      <a href="/addTweet">Add Tweet</a>
+      <a href="/logout">Log out</a>
+    <% } else { %>
+      <a href="/">Login / Register</a>
+    <% } %>
+  </nav>
+</header>
+
+<% if (flash && flash.message) { %>
+  <p class="flash <%= flash.type || '' %>"><%= flash.message %></p>
+<% } %>

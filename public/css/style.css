@@ -1,11 +1,96 @@
-/* public/css/style.css
- *
- * The only static asset folder in the project. express.static('public') in app.js
- * makes everything here reachable from the browser as /css/style.css.
- *
- * HTML/CSS is NOT graded. Keep this file small: readable fonts, spacing between
- * articles, and one rule that makes the delete button look like a link:
- *
- *   .link-button { background: none; border: none; padding: 0; cursor: pointer;
- *                  color: #0b62a4; text-decoration: underline; font: inherit; }
- */
+/* Minimal styling. HTML/CSS is not graded - this only makes the wireframe
+   readable. The important part is .danger, so Delete looks like a button. */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #1a1a1a;
+  background: #f5f6f8;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1.5rem;
+  background: #111827;
+  color: #fff;
+}
+
+.topbar a { color: #cbd5e1; text-decoration: none; margin-left: 1rem; }
+.topbar a:hover { color: #fff; text-decoration: underline; }
+.brand { font-weight: 700; font-size: 1.1rem; margin-left: 0 !important; color: #fff !important; }
+.who { color: #94a3b8; margin-left: 1rem; }
+
+.page { max-width: 760px; margin: 2rem auto; padding: 0 1rem 3rem; }
+.page-title { text-align: center; }
+
+.panel {
+  border: 2px solid #111827;
+  border-radius: 4px;
+  padding: 1rem 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  background: #fff;
+}
+
+.panel legend { font-weight: 700; padding: 0 0.4rem; }
+
+.form .row { margin-bottom: 0.85rem; }
+.form label { display: block; margin-bottom: 0.25rem; font-size: 0.9rem; }
+.form input, .form textarea {
+  width: 100%;
+  padding: 0.45rem 0.5rem;
+  border: 1px solid #9ca3af;
+  border-radius: 3px;
+  font: inherit;
+}
+.hint { color: #6b7280; font-size: 0.78rem; }
+.actions { text-align: right; margin-top: 1rem; }
+
+.btn {
+  display: inline-block;
+  padding: 0.45rem 1.1rem;
+  background: #1d4ed8;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn:hover { background: #1e40af; }
+.btn.danger { background: #b91c1c; }
+.btn.danger:hover { background: #991b1b; }
+
+.inline-form { display: inline; }
+
+.errors {
+  background: #fee2e2;
+  border: 1px solid #b91c1c;
+  color: #7f1d1d;
+  padding: 0.6rem 1rem;
+  border-radius: 3px;
+  margin-bottom: 1rem;
+}
+.errors ul { margin: 0; padding-left: 1.1rem; }
+
+.notice { background: #fef3c7; border: 1px solid #d97706; padding: 0.6rem 1rem; border-radius: 3px; }
+.notice.ok { background: #dcfce7; border-color: #15803d; }
+.flash { max-width: 760px; margin: 1rem auto 0; padding: 0.6rem 1rem; background: #dcfce7; border: 1px solid #15803d; border-radius: 3px; }
+
+.count { text-align: center; }
+
+.tweet { border-bottom: 1px solid #d1d5db; padding: 1.25rem 0; }
+.tweet-title { margin: 0 0 0.5rem; }
+.tweet-body { white-space: pre-wrap; margin: 0 0 0.5rem; }
+.tweet-meta { display: flex; justify-content: space-between; font-size: 0.9rem; }
+.date { color: #6b7280; font-size: 0.85rem; }
+.tweet-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+.tweet-actions { display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1rem; }
+
+.empty { text-align: center; color: #6b7280; padding: 1.5rem 0; }
+.back { color: #1d4ed8; }
+.footer { text-align: center; color: #6b7280; font-size: 0.8rem; padding: 2rem 0; }

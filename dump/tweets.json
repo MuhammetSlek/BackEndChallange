@@ -1,0 +1,38 @@
+[
+  {
+    "_id": "6af6ef7b7a72ae072cda185d",
+    "title": "JavaScript is the language of the web",
+    "tweet": "A flexible language that runs in every browser.",
+    "author": "6af6ef7b7a72ae072cda185c",
+    "createdAt": "2026-11-13T11:07:39.492Z",
+    "updatedAt": "2020-08-13T10:00:00.000Z",
+    "__v": 0
+  },
+  {
+    "_id": "6af6ef7b7a72ae072cda185e",
+    "title": "Nodejs lets you run JavaScript on servers",
+    "tweet": "Same language, different runtime, real servers.",
+    "author": "6af6ef7b7a72ae072cda185c",
+    "createdAt": "2026-11-13T11:07:39.542Z",
+    "updatedAt": "2020-08-14T09:30:00.000Z",
+    "__v": 0
+  },
+  {
+    "_id": "6af6ef7b7a72ae072cda185f",
+    "title": "React is a library for building interfaces",
+    "tweet": "Components, state and props in one place.",
+    "author": "6af6ef7b7a72ae072cda185c",
+    "createdAt": "2026-11-13T11:07:39.589Z",
+    "updatedAt": "2020-08-14T16:15:00.000Z",
+    "__v": 0
+  },
+  {
+    "_id": "6af6ef7b7a72ae072cda1860",
+    "title": "MongoDB stores documents as BSON",
+    "tweet": "Schema-less and fast for read-heavy apps.",
+    "author": "6af6ef7b7a72ae072cda185c",
+    "createdAt": "2026-11-13T11:07:39.637Z",
+    "updatedAt": "2020-08-15T11:45:00.000Z",
+    "__v": 0
+  }
+]
