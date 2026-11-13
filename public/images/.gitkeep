@@ -1,0 +1,2 @@
+Any images used by the site go here (express.static('public') serves them).
+Create a subfolder if you use several, e.g. public/images/avatars/.

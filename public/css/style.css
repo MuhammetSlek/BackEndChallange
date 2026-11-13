@@ -1,0 +1,11 @@
+/* public/css/style.css
+ *
+ * The only static asset folder in the project. express.static('public') in app.js
+ * makes everything here reachable from the browser as /css/style.css.
+ *
+ * HTML/CSS is NOT graded. Keep this file small: readable fonts, spacing between
+ * articles, and one rule that makes the delete button look like a link:
+ *
+ *   .link-button { background: none; border: none; padding: 0; cursor: pointer;
+ *                  color: #0b62a4; text-decoration: underline; font: inherit; }
+ */

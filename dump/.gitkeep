@@ -1,0 +1,4 @@
+Placeholder so the empty folder is kept by git.
+The database export goes here at submission time:
+    mongodump --uri="mongodb+srv://..." --db=backend_challenge --out=./dump
+or, in Compass: select the database -> Export Database.
