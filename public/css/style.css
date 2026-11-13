@@ -16,7 +16,7 @@
 
 .navbar nav a {
   margin-left: 15px;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .btn {
@@ -36,4 +36,7 @@
 
 .errors {
   color: #b00;
+}
+.nav-link {
+  text-decoration: none;
 }
