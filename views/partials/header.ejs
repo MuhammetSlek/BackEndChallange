@@ -1,9 +1,12 @@
-<header>
+<header class="navbar">
   <% if (currentUser) { %>
-    <p>
-      <a href="/tweet">Tweets</a> |
-      <a href="/addTweet">Add Tweet</a> |
+    <a class="brand" href="/tweet">Welcome to Tweeter</a>
+    <nav>
+      <a href="/tweet">Tweets</a>
+      <a href="/addTweet">Add Tweet</a>
       <a href="/logout">Log out</a>
-    </p>
+    </nav>
+  <% } else { %>
+    <span>Welcome to Tweeter</span>
   <% } %>
 </header>
